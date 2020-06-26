@@ -1,7 +1,7 @@
 const express = require('express')
 const Joi = require('joi')
-
 const app = express()
+
 app.use(express.json())
 
 const genres = [
@@ -11,7 +11,7 @@ const genres = [
 ]
 
 app.get('/', (req, res) => {
-    res.send('Welcome to VIDLY')
+    res.send('Welcome to My Movies')
 })
 
 app.get('/api/genres', (req, res) => {
@@ -24,7 +24,7 @@ app.get('/api/genres/:id', (req, res) => {
     res.send(genre)
 })
 
-app.post('/api/genres/', (req, res) => {
+app.post('/api/genres', (req, res) => {
 
     const { error } = validateCourse(req.body)
     if (error) return res.status(400).send(error.details[0].message)
@@ -57,21 +57,13 @@ app.delete('/api/genres/:id', (req, res) => {
     res.send(genres)
 })
 
-
-
-
-
+// Validation comes through this function
 function validateCourse(course) {
     const schema = {
         genre: Joi.string().min(3).required()
     }
     return Joi.validate(course, schema);
-
 }
 
-
 const PORT = process.env.PORT || 3000
-
-app.listen(PORT, () => {
-    console.log("App is listening at port ", PORT)
-})
+app.listen(PORT, () => console.log("App is listening at port ", PORT))
